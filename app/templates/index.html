@@ -64,6 +64,8 @@ const START = async () => {
     const $CanUserList = window.canUserList;
     //  RTC连接列表
     const $RTCList = {}
+    //  传输文件列表
+    window.$fileList = {}
     /**
      * 获取信令服务器派发的默认iceConfig
      * */
@@ -243,8 +245,75 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
         console.log('END')
         window.send = $RTCList[rtcName].RTC.send
         $RTCList[rtcName].RTC.onMessage(data => {
-            console.log(data)
+            if(data.type == 'file'){
+                saveFile(data.data)
+            }
         })
+    }
+    function saveFile(data){
+        if(data.type == 'start') {
+            //  收到开始指令创建空文件
+            fs.writeFileSync(data.md5, '')
+            window.$fileList[data.md5] = {
+                fileName:data.fileName,
+                fileSize:data.fileSize,
+                fileType:data.fileType,
+                chunkSize:data.chunkSize,
+                chunkTotal:data.chunkTotal,
+                md5:data.md5,
+            }
+        }else if(data.type == 'ing'){
+            const atom = data.file
+            const fd = new Buffer(atom)
+            fs.writeFileSync(data.md5,fd,{ encoding: 'utf8', mode: 438 /*=0666*/, flag: 'a' })
+            delete window.$fileList[data.md5]
+        }else if(data.type == 'end'){
+            //  检验文件
+            console.log('上传完成')
+        }
+    }
+    function saveFile_old(data){
+        if(data.type == 'start'){
+            //  收到开始指令创建空文件
+            fs.writeFileSync(data.md5,'')
+            if(Object.keys(window.$fileList).indexOf(data.md5) > -1){
+                window.$fileList[data.md5].fileName = data.fileName
+                window.$fileList[data.md5].fileSize = data.fileSize
+                window.$fileList[data.md5].fileType = data.fileType
+                window.$fileList[data.md5].chunkSize = data.chunkSize
+                window.$fileList[data.md5].chunkTotal = data.chunkTotal,
+                window.$fileList[data.md5].md5 = data.md5
+            }else{
+                window.$fileList[data.md5] = {
+                    fileName:data.fileName,
+                    fileSize:data.fileSize,
+                    fileType:data.fileType,
+                    chunkSize:data.chunkSize,
+                    chunkTotal:data.chunkTotal,
+                    md5:data.md5,
+                    file:{}
+                }
+            }
+            console.log(data)
+        }else if(data.type == 'ing'){
+            if(Object.keys(window.$fileList).indexOf(data.md5) == -1){
+                window.$fileList[data.md5] = {
+                    file:{
+                        [data.num]:data.file
+                    }
+                }
+            }else{
+                window.$fileList[data.md5].file[data.num] = data.file
+            }
+        }else if(data.type == 'end'){
+            console.log('endFile')
+            for(let i = 0;i < Object.keys(window.$fileList[data.md5].file).length; i++){
+                const atom = window.$fileList[data.md5].file[i]
+                const fd = new Buffer(atom)
+                fs.writeFileSync(data.md5,fd,{ encoding: 'utf8', mode: 438 /*=0666*/, flag: 'a' })
+                delete window.$fileList[data.md5]
+            }
+        }
     }
 
 //  RTC
@@ -305,8 +374,7 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
                         this.#onMessage(message)
                     }
                 }catch (e) {
-                    console.log('非JSON数据',msg.data)
-                    fs.writeFileSync('test.txt',msg.data)
+                    // console.log('非JSON数据',Object.keys(msg))
                 }
             }
             RTCChannel.onopen = ()=>{
