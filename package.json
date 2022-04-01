@@ -1,0 +1,23 @@
+{
+  "name": "gcnaslocal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expressgy/gcnaslocal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/expressgy/gcnaslocal/issues"
+  },
+  "homepage": "https://github.com/expressgy/gcnaslocal#readme",
+  "devDependencies": {
+    "electron": "^18.0.1"
+  }
+}

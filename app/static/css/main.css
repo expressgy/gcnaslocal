@@ -1,0 +1,447 @@
+html,body{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+html{
+    background-image: url("../img/bg6.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right center;
+
+    font-family: sans-serif;
+}
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width: 2px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,0.4);
+}
+body{
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    backdrop-filter: blur(50px);
+    background-color: RGBA(255,255,255,0.5);
+}
+div{
+    position: relative;
+}
+    #bar{
+        flex-shrink: 1;
+        height: 1.8rem;
+        width: 100%;
+        color:#000;
+
+        -webkit-user-select: none;
+        -webkit-app-region: drag;
+
+        background-color: RGBA(255,255,255,0.5);
+        display: flex;
+    }
+        #bar-title{
+            font-size: 0.9rem;
+            /*font-weight: 500;*/
+            height: 100%;
+
+            padding: 0 0.5rem;
+            margin: 0;
+            color: #333333;
+        }
+        #bar-cmd{
+            flex: 1;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+            #bar-cmd>#close{
+                height: 100%;
+                padding: 0 0.2rem;
+            }
+                #bar-cmd img{
+                    width: 1.5rem;
+                }
+    #body{
+        flex: 1;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+    }
+        aside{
+            flex-shrink: 1;
+            width: 180px;
+            height: 100%;
+            background-color: RGBA(50,50,50,0.5);
+            box-shadow: 0 0 20px 1px RGBA(0,0,0,0.3);
+        }
+            #nav{
+                display: flex;
+                flex-direction: column;
+            }
+                #nav>header{
+                    position: relative;
+                    flex: 1;
+                    color:#000000;
+                }
+                    #nav>header>div{
+                        margin: 0.5rem 0;
+                        border-radius: 5px;
+                        padding: 0.5rem;
+                        background-color: rgba(242,244,246,0.5);
+                    }
+                    #nav>header>.title{
+                        font-size: 1.2rem;
+                        line-height: 1.5em;
+                        /*font-weight: bold;*/
+                        color:#000000;
+                        background-color: rgba(242,244,246,0.9);
+                    }
+                        #host{
+                            font-weight: bold;
+                            font-size: 16px;
+                            line-height: 1.6em;
+                        }
+                        #nav>header>div>div:first-child{
+                            /*background-color: #C81623;*/
+                            font-size: 1rem;
+                            line-height: 1.5em;
+                        }
+                        #nav>header>div>div:last-child>input{
+                            width: 75%;
+                        }
+                        #nav>header>div>div:last-child>span{
+                            margin: 0 0 0 0.5rem;
+                        }
+                #nav>footer{
+                    position: relative;
+                    flex-shrink: 1;
+                    height: 2em;
+                    border-radius: 5px;
+                    color:#333333;
+
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                    line-height: 2em;
+
+                    display: flex;
+
+                    background: #3ac569;
+                }
+                #nav>footer:hover{
+                    cursor: pointer;
+                }
+                    #nav>footer>div>img{
+                        width: 1.4rem;
+                        height: 1.4rem;
+                        margin: 0 1rem 0 0;
+                    }
+        article{
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+        }
+            article>#serverList{
+                flex-shrink: 1;
+                width: 200px;
+                background-color: RGBA(100,100,100,0.5);
+            }
+                #serverList-son{
+                    display: flex;
+                    flex-direction: column;
+                }
+                    #serverList-son>header{
+                        flex: 1;
+                        overflow: auto;
+                    }
+                    #serverList header>div{
+                        margin: 0.5rem 0;
+                        border-radius: 5px;
+                        padding: 0.5rem;
+                        background-color: rgba(242,244,246,0.3);
+                        color:#333;
+                    }
+                        #serverList-son>header>.title{
+                            /*text-align: center;*/
+                            font-size: 1rem;
+                            line-height: 1.8rem;
+                            /*font-weight: bold;*/
+                            color:#000000;
+                            background-color: rgba(242,244,246,0.9);
+                        }
+                        #serverList-son>header>.serverBox{
+                            /*background-color: #C81623;*/
+                            cursor: pointer;
+                        }
+                        #serverList-son>header>.serverBox:hover{
+                            background-color: rgba(242,244,246,0.6);
+                        }
+                                #serverList-son>header>.serverBox>div:first-child{
+                                    font-size: 1.2rem;
+                                    height: 1.6rem;
+                                    line-height: 1.6rem;
+                                }
+                                    #serverList-son>header>.serverBox>div:first-child>div:first-child{
+                                        width: 7rem;
+                                        white-space:nowrap;
+                                        overflow:hidden;
+                                        text-overflow:ellipsis;
+                                    }
+                                #serverList-son>header>.serverBox>div:last-child{
+                                    font-size: 12px;
+                                    color:#555;
+                                    height: 1.5rem;
+                                }
+                                .serverBoxSwitch{
+                                    background-color: RGBA(100,100,100,1);
+                                    position: absolute;
+                                    top:0;
+                                    right:0;
+                                    width: 3rem;
+                                    height: 1.4rem;
+                                    border-radius: 50px;
+                                    overflow: hidden;
+                                }
+                                    .serverBoxSwitch>div{
+                                        left: 0;
+                                        height: 1.1rem;
+                                        width: 1.1rem;
+                                        margin: 0.15rem;
+                                        background-color:  #ffffff;
+                                        border-radius: 1.2rem;
+                                        transition: all ease-in-out 0ms 1s;
+                                    }
+                    #serverList-son>footer{
+                        flex-shrink: 1;
+                        height: 1rem;
+                        /*background-color: #15c288;*/
+                        /*border-radius: 5px;*/
+                        /*font-weight: bold;*/
+                        /*font-size: 1.2rem;*/
+                        /*color: #333;*/
+                    }
+            article>#controlPanel{
+                flex: 1;
+            }
+            #controlPanel>div>div{
+                display: flex;
+                flex-direction: column;
+            }
+                article #main{
+                    flex: 1;
+                    width: 100%;
+                }
+                    article #main>.mainShow{
+                        /*background-color: #C81623;*/
+                        height: 100%;
+                        width: 100%;
+                        /*font-size: 10rem;*/
+                        border-radius: 5px;
+                        /*padding: 1rem;*/
+                        /*box-sizing: border-box;*/
+                        overflow: hidden;
+                    }
+                        .mainShow>.mainShow-son{
+                            /*background: #15c288;*/
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            flex-direction: column;
+                        }
+                            .mainShow-son-head{
+                                flex-shrink: 1;
+                                width: 100%;
+                                height: 2rem;
+                                background: rgba(0,0,0,0.5);
+                                border-radius: 5px;
+                                margin: 0.6rem 0;
+                                display: flex;
+                            }
+                                .main-window-label{
+                                    flex: 1;
+                                    display: flex;
+                                }
+                                    .main-window-label-box{
+                                        margin: 0.2rem 0 0.2rem 0.3rem ;
+                                        width: 100px;
+                                        border-radius: 5px;
+                                        background: rgba(0,0,0,0.3);
+                                        cursor: pointer;
+                                        color: #fefefe;
+                                    }
+                                    .main-window-label-box:hover{
+                                        background: rgba(0,0,0,0.6) !important;
+                                    }
+                                        .main-window-label-name{
+                                            text-align: left;
+                                            /*line-height: 1.8rem;*/
+                                            padding: 0.4rem 0.3rem;
+                                            box-sizing: border-box;
+                                        }
+                                        .main-window-label-cmd{
+                                            position: absolute;
+                                            top:0;
+                                            right: 0;
+                                            background: rgba(255,255,255,0.5);
+                                            margin: 0.3rem;
+                                            border-radius: 50px;
+                                        }
+                                        .main-window-label-cmd:hover{
+                                            background: rgba(255,255,255,0.8);
+                                        }
+                                            .main-window-label-cmd>img{
+                                                width: 1rem;
+                                            }
+                                .main-window-label-add{
+                                    flex-shrink: 1;
+                                    margin: 0.2rem;
+                                    background: rgba(255,255,255,0.5);
+                                    border-radius: 5px;
+                                    width: 1.6rem;
+                                    cursor: pointer;
+                                }
+                                .main-window-label-add:hover{
+                                    background: rgba(255,255,255,0.8);
+                                }
+                                    .main-window-label-add>img{
+                                        width: 1.2rem;
+                                    }
+                            .mainShow-son-body{
+                                flex: 1;
+                                width: 100%;
+                                overflow: hidden;
+                            }
+                                .mainShow-son-body-box{
+                                    width: 100%;
+                                    height: 100%;
+                                    border-radius: 5px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    overflow: auto;
+                                }
+
+                                    .mainName{
+                                        background: RGBA(0,0,0,0.5);
+                                        flex-shrink: 1;
+                                        font-size: 1.2rem;
+                                        color:#fefefe;
+                                        line-height: 3rem;
+                                        height: 3rem;
+                                        padding: 0 1.5rem;
+                                        margin: 0 auto;
+                                        border-radius: 5px;
+                                    }
+                                    .mainDataTitle{
+                                        width: 100%;
+                                        flex-shrink: 1;
+                                        background: rgba(0,0,0,0.3);
+                                        box-sizing: border-box;
+                                        padding: 1rem 0.6rem;
+                                        border-radius: 5px 5px 0 0;
+                                        margin: 0.6rem 0 0 0;
+                                    }
+                                        .mainDataTitle-oneLine{
+                                            display: flex;
+                                        }
+                                            .mainDataTitle-box{
+                                                display: flex;
+                                                padding: 0.3rem 0;
+                                                width: 50%;
+                                            }
+                                                .mainDataTitle-box>div:first-child{
+                                                    font-size: 1rem;
+                                                    color: #fefefe;
+                                                    line-height: 1.6rem;
+                                                    width: 100px;
+                                                    padding: 0 0.5rem;
+                                                    flex-shrink: 1;
+                                                    text-align: right;
+                                                }
+                                                .mainDataTitle-box>div:last-child{
+                                                    flex: 1;
+                                                }
+                                                .mainDataTitle-box>div:last-child>input{
+                                                    width: 90%;
+
+                                                }
+                                    .mainDataBody{
+                                        width: 100%;
+                                        flex: 1;
+                                        background: rgba(0,0,0,0.3);
+                                        border-radius: 0 0 5px 5px;
+                                        box-sizing: border-box;
+                                        padding: 0.6rem;
+                                    }
+                                        .databox{
+                                            display: flex;
+                                            color: #333;
+                                            text-align: center;
+                                        }
+                                            .databox>div{
+                                                line-height: 1.6rem;
+                                                border-radius: 5px;
+                                                margin: 0.3rem;
+                                                background: rgba(255,255,255,0.3);
+                                            }
+                                                .databox>div>input{
+                                                    width: 100%;
+                                                    text-align: center;
+                                                }
+                                            .databox>.objName{
+                                                width: 100px;
+                                                flex-shrink: 1;
+                                                overflow: hidden;
+                                            }
+                                            .databox>.objText{
+                                                width: 200px;
+                                                flex-shrink: 1;
+                                                overflow: hidden;
+                                            }
+                                            .databox>.dataMax{
+                                                flex: 1;
+                                            }
+                                            .databox>.dataMin{
+                                                flex: 1;
+                                            }
+                                            .databox>.dataCompany{
+                                                flex: 1;
+                                            }
+                article #console{
+                    flex-shrink: 1;
+                    width: 100%;
+                    height: 3rem;
+                    background-color: #333;
+                    border-radius: 5px;
+                    margin: 0.5rem 0 0 0;
+                    padding: 0.5rem 1rem;
+                    box-sizing: border-box;
+                    display: flex;
+                    align-items: center;
+                }
+                .bigConsole{
+                    display: block !important;
+                    position: absolute !important;
+                    /*height: 100% !important;*/
+                    margin:  0 !important;
+                    bottom: 0;
+                    animation: bigConsole 500ms ease-in-out;
+                }
+                .smlConsole{
+                    display: block !important;
+                    position: absolute !important;
+                    margin:  0 !important;
+                    bottom: 0;
+                    animation: smlConsole 500ms ease-in-out;
+                }

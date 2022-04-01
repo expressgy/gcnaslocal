@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>RGV_Test</title>
+		<link rel="stylesheet" href="../static/css/default.css">
+		<link rel="stylesheet" href="../static/css/widget.css">
+		<link rel="stylesheet" href="../static/css/animation.css">
+<!--		<script>const makeData = require("../static/js/makeData.js")</script>-->
+		<script>window.$ = window.jQuery = require("jquery");</script>
+
+		<link rel="stylesheet" href="../static/css/main.css">
+
+		<script>const makeData = require("../static/js/makeData.js")</script>
+		<script>require("../static/js/renderer.js")</script>
+	</head>
+	<body>
+		<div id="bar">
+			<div id="bar-title" class="width-auto all-center">RGV_Test</div>
+			<div id="bar-cmd">
+				<div id="close" class="width-auto all-center"><img src="../static/img/close.svg" alt=""></div>
+			</div>
+		</div>
+		<div id="body">
+			<aside class="one-margin">
+			<div>
+			<div>
+				<div id="nav">
+					<header>
+						<div class="title">基础配置</div>
+						<div id="myHost">
+							<div>目标地址</div>
+							<div id="host"><input type="text" value="localhost"></div>
+						</div>
+						<div id="myPort">
+							<div>服务端口</div>
+							<div><input type="text" value="8888"></div>
+						</div>
+						<div id="myDuration">
+							<div>服务开启时长</div>
+							<div><input type="text" value="10"><span>分钟</span></div>
+						</div>
+						<div id="myInterval">
+							<div>数据发送频率</div>
+							<div><input type="text" value="2"><span>包/秒</span></div>
+						</div>
+					</header>
+					<footer id="startSend" class="all-center"><div><img src="../static/img/send.svg" alt=""></div><div>开启服务</div></footer>
+				</div>
+			</div>
+			</div>
+			</aside>
+			<article>
+				<div id="serverList" class="one-margin">
+				<div>
+				<div>
+					<div id="serverList-son">
+						<header>
+							<div class="title">服务列表</div>
+							<div class="serverBox" id="ip-box">
+								<div>
+									<div class="serverBoxTitle">IP</div>
+									<div class="serverBoxSwitch" id="ip-switch"><div></div></div>
+								</div>
+								<div class="serverText">IP检测</div>
+							</div>
+							<div class="serverBox" id="ftpd-box">
+								<div>
+									<div class="serverBoxTitle">FTP Download</div>
+									<div class="serverBoxSwitch" id="ftpd-switch"><div></div></div>
+								</div>
+								<div class="serverText">FTP下行检测</div>
+							</div>
+							<div class="serverBox" id="ftpu-box">
+								<div>
+									<div class="serverBoxTitle">FTP Upload</div>
+									<div class="serverBoxSwitch" id="ftpu-switch"><div></div></div>
+								</div>
+								<div class="serverText">FTP上行检测</div>
+							</div>
+							<div class="serverBox" id="http-box">
+								<div>
+									<div class="serverBoxTitle">HTTP</div>
+									<div class="serverBoxSwitch" id="http-switch"><div></div></div>
+								</div>
+								<div class="serverText">HTTP数据检测</div>
+							</div>
+							<div class="serverBox" id="ping-box">
+								<div>
+									<div class="serverBoxTitle">Ping</div>
+									<div class="serverBoxSwitch" id="ping-switch"><div></div></div>
+								</div>
+								<div class="serverText">Ping信号检测</div>
+							</div>
+							<div class="serverBox" id="video-box">
+								<div>
+									<div class="serverBoxTitle">Video</div>
+									<div class="serverBoxSwitch" id="video-switch"><div></div></div>
+								</div>
+								<div class="serverText">流媒体数据检测</div>
+							</div>
+							<div class="serverBox" id="net-box">
+								<div>
+									<div class="serverBoxTitle">Net</div>
+									<div class="serverBoxSwitch" id="net-switch"><div></div></div>
+								</div>
+								<div class="serverText">网络稳定性检测</div>
+							</div>
+						</header>
+						<footer class="all-center">-*-</footer>
+					</div>
+				</div>
+				</div>
+				</div>
+				<div id="controlPanel" class="one-margin">
+				<div>
+				<div>
+					<div id="main">
+						<div class="mainShow" id="ip-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">IP性能测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">IpDelay</div>
+												<div class="objText">Ip时延</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpJitter</div>
+												<div class="objText">Ip抖动</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpLostpct</div>
+												<div class="objText">Ip丢包率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpRelSpeed</div>
+												<div class="objText">实时速率 </div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpAvgSpeed</div>
+												<div class="objText">平均速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpsendCnt</div>
+												<div class="objText">Ip包发送个数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpRecvCnt</div>
+												<div class="objText">Ip包接收个</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpType</div>
+												<div class="objText">TCP or UDP </div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">IpTotalTrans</div>
+												<div class="objText">传输总字节数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="ftpd-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">FTP下载测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">DLSp</div>
+												<div class="objText">下载实施速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">DLMin</div>
+												<div class="objText">下载最小速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">DLMax</div>
+												<div class="objText">下载最大速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">DLMean</div>
+												<div class="objText">下载平均速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="ftpu-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">FTP上传测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">ULSp</div>
+												<div class="objText">上传实时速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">ULMin</div>
+												<div class="objText">上传最小速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">ULMax</div>
+												<div class="objText">上传最大速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">ULMean</div>
+												<div class="objText">上传平均速率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="http-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">HTTP测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">WebDelay</div>
+												<div class="objText">网页时延</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">WebSucRate</div>
+												<div class="objText">网页成功率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">WebNum</div>
+												<div class="objText">网页请求次数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">WebSucNum</div>
+												<div class="objText">网页请求成功次数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="ping-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">Ping测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">PingDelay</div>
+												<div class="objText">Ping时延</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">PingLostRate</div>
+												<div class="objText">Ping丢包率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">PingJitter</div>
+												<div class="objText">Ping 抖动</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">PingSendpct</div>
+												<div class="objText">Ping发送包数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">PingRecvpct</div>
+												<div class="objText">Ping收到包数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">PingLostpct</div>
+												<div class="objText">Ping丢包数</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="video-show">
+							<div class="mainShow-son">
+								<div class="mainShow-son-head">
+									<div class="main-window-label">
+										<div class="main-window-label-box">
+											<div class="main-window-label-name">终端0</div>
+											<div class="main-window-label-cmd"><img src="../static/img/adc.svg" alt=""></div>
+										</div>
+									</div>
+									<div class="main-window-label-add all-center" ><img src="../static/img/add.svg" alt=""></div>
+								</div>
+								<div class="mainShow-son-body">
+									<div class="mainShow-son-body-box">
+										<div class="mainName width-auto">视频测试</div>
+										<div class="mainDataTitle">
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>TerminalId</div>
+													<div><input type="text" placeholder="添加终端时一定要修改，不可相同"></div>
+												</div>
+
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>NetType</div>
+													<div><input type="text" placeholder="网络类型"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>IMEI</div>
+													<div><input type="text" placeholder="UE唯一标识"></div>
+												</div>
+											</div>
+											<div class="mainDataTitle-oneLine">
+												<div class="mainDataTitle-box">
+													<div>CellID</div>
+													<div><input type="text" placeholder="小区ID"></div>
+												</div>
+												<div class="mainDataTitle-box">
+													<div>SigLevel</div>
+													<div><input type="text" placeholder="信号强度"></div>
+												</div>
+											</div>
+											<input type="text" class="hide" value="0"><input type="text" class="hide" value="0">
+											<div class="databox">
+												<div class="objName">项目名称</div>
+												<div class="objText">备注</div>
+												<div class="dataMax">最大值</div>
+												<div class="dataMin">最小值</div>
+												<div class="dataCompany">单位</div>
+											</div>
+											<div class="databox">
+												<div class="objName">CPU</div>
+												<div class="objText">CPU使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">MemoryUsage</div>
+												<div class="objText">内存使用率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+										<div class="mainDataBody">
+											<div class="databox">
+												<div class="objName">VideoFrameDelay</div>
+												<div class="objText">视频帧时延</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">VideoFrameSize</div>
+												<div class="objText">视频帧分辨率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">VideoFrameRate</div>
+												<div class="objText">视频帧率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">VideoBps</div>
+												<div class="objText">视频码率</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+											<div class="databox">
+												<div class="objName">VideoFirstFrameDelay</div>
+												<div class="objText">视频首帧时延</div>
+												<div class="dataMax"><input type="text" value="1"></div>
+												<div class="dataMin"><input type="text" value="0"></div>
+												<div class="dataCompany"><input type="text" value="hx"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainShow hide" id="net-show">
+							<div class="all-center" style="height: 100%;font-size: 3rem;">None</div>
+						</div>
+					</div>
+					<div id="console">Console</div>
+				</div>
+				</div>
+				</div>
+			</article>
+		</div>
+	</body>
+</html>

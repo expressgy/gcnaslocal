@@ -1,0 +1,76 @@
+@keyframes open-switch {
+    from{
+        background-color: RGBA(100,100,100,1);
+    }to{
+        background-color: rgba(43,222,115,1);
+    }
+}
+@keyframes open-switch-move {
+    from{
+        left:0;
+    }to{
+        left:1.5rem;
+     }
+}
+.openSwitch{
+    animation: open-switch 100ms ease-in !important;
+}
+.openSwitchMove{
+    animation: open-switch-move 300ms ease !important;
+}
+
+@keyframes close-switch {
+    from{
+        background-color: rgba(43,222,115,1);
+    }to{
+         background-color: RGBA(100,100,100,1);
+     }
+}
+@keyframes close-switch-move {
+    from{
+        left:1.5rem;
+    }to{
+         left:0;
+     }
+}
+.closeSwitch{
+    animation: close-switch 100ms ease-in !important;
+}
+.closeSwitchMove{
+    animation: close-switch-move 300ms ease !important;
+}
+
+@keyframes big {
+    from{
+        transform: scale(0);
+    }to{
+        transform: scale(1);
+         }
+}
+@keyframes sma {
+    from{
+        transform: scale(1);
+    }to{
+        transform: scale(0);
+        }
+}
+.winShow{
+    animation: big ease-in-out 300ms;
+}
+.winHide{
+    animation: sma ease-in-out 300ms;
+}
+@keyframes bigConsole{
+    from{
+        height: 3rem;
+    }to{
+        height: 100%;
+         }
+}
+@keyframes smlConsole{
+    from{
+        height: 100%;
+    }to{
+         height: 3rem;
+     }
+}

@@ -1,0 +1,90 @@
+.width-auto{
+    /*div宽度适应文字*/
+    width:fit-content;
+    width:-webkit-fit-content;
+    width:-moz-fit-content;
+}
+.all-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.one-margin{
+    display: flex;
+}
+.one-margin>div{
+    flex: 1;
+    margin: 0.3rem 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.one-margin>div>div{
+    flex: 1;
+    margin:  0 0.3rem;
+    overflow: hidden;
+}
+.one-margin>div>div>div{
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+#newWin{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 10000000;
+    left: 0;
+    top:0;
+    /*background: #C81623;*/
+}
+#newWinBox{
+    position: relative;
+    min-height: 100px;
+    width: 300px;
+    background: rgba(238,198,10,1);
+    color:#333333;
+    box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.5);
+    border-radius: 5px;
+    padding: 0.8rem;
+
+    display: flex;
+    flex-direction: column;
+}
+#newWinBox>div:first-child{
+    flex-shrink: 1;
+    line-height: 2em;
+    font-size: 1.2rem;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+#newWinBoxText{
+    padding: 0.8rem 0;
+    text-align: center;
+    flex: 1;
+}
+#newWinClose{
+    flex-shrink: 1;
+}
+#newWinClose>div{
+    width: 2rem;
+    text-align: center;
+    background: #fefefe;
+    border-radius: 5px;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    box-shadow: 1px 1px 10px 2px rgba(0,0,0,0.1);
+    transition: all ease-in-out 300ms;
+}
+#newWinClose>div:hover{
+    width: 3rem;
+}
+.warningInput{
+    background: rgba(254,67,101,0.9) !important;
+}
+.red{
+    background: rgba(228,44,100,1) !important;
+}

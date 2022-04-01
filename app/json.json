@@ -1,0 +1,69 @@
+{
+    "testTerminalId": "KPISERVER01",
+    "time": "2021-09-06 16:32:15 是否要毫秒？",
+    "data": {
+        "CpeInfo": {
+            "IMEI": "cp01",
+            "CellID": "cell01",
+            "SigLevel": "100",
+            "NetType": "type1"
+        },
+        "TestTerminalInfo": {
+            "CPU" : "0.8",
+            "MemoryUsage" : "xxx"
+        },
+        "TestStaus": {
+            "IpTestStat": "open",
+            "FtpDlTestStat": "open",
+            "FtpUlTestStat": "open",
+            "HttpTestStat": "open",
+            "PingTestStat": "open",
+            "VideoTestStat": "open",
+            "NetTestStat": "open"
+        },
+        "IpTest": {
+            "IpDelay": "0.1",
+            "IpJitter": "0.2",
+            "IpLostpct": "0.1",
+            "IpRelSpeed": "",
+            "IpAvgSpeed": "",
+            "IpsendCnt": "",
+            "IpRecvCnt": "",
+            "IpType": "",
+            "IpTotalTrans": ""
+        },
+        "FtpDlTest": {
+            "DLSp": "100",
+            "DLMin": "10",
+            "DLMax": "200",
+            "DLMean": "150"
+        },
+        "FtpUlTest": {
+            "ULSp": "140",
+            "ULMin": "100",
+            "ULMax": "10",
+            "ULMean": "200"
+        },
+        "HttpTest": {
+            "WebDelay": "100",
+            "WebSucRate": "5",
+            "WebNum": "6",
+            "WebSucNum": "1"
+        },
+        "VideoTest": {
+            "VideoFrameDelay": "100",
+            "VideoFrameSize": "100",
+            "VideoFrameRate": "100",
+            "VideoBps": "100",
+            "VideoFirstFrameDelay": "100"
+        },
+        "PingTest": {
+            "PingDelay": "50",
+            "PingLostRate": "50",
+            "PingJitter": "200",
+            "PingSendpct": "200",
+            "PingRecvpct": "100",
+            "PingLostpct": ""
+        }
+    }
+}
