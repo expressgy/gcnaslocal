@@ -23,3 +23,14 @@ app.on("ready",function(){
 try {
     require('electron-reloader')(module,{});
 } catch (_) {}//	自动刷新
+
+async function getLocalConfig(){
+    const fs = require('fs');
+    const config = require('./.nasID');
+    config["ID"] = "NAS123123123123";
+    const jsonstr = JSON.stringify(config);
+    const writeFileState = await fs.writeFileSync('./.nasID.json',jsonstr)
+    console.log(writeFileState)
+}
+
+getLocalConfig()
