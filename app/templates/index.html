@@ -17,49 +17,64 @@
 </h2>
 </body>
 <script>
+    const ipcRenderer = require('electron').ipcRenderer;
+    const fs = require('fs')
+
 window.onload = () => {
-    getLocalConfig()
+    console.log('I AM NAS!')
+    console.log('Hello World!')
+    console.log('Hello GY!')
+    console.log('Version: 0.0.1')
 }
-    async function getLocalConfig(){
-        const fs = require('fs');
-        const config = require('../../.nasID');
-        config["ID"] = "NAS123123123123";
-        const jsonstr = JSON.stringify(config);
-        const writeFileState = await fs.writeFileSync('../../.nasID.json',jsonstr)
-        console.log(writeFileState)
-    }
 
-    console.log(__dirname)
-    /**
-     * 本地允许用户列表
-     * */
+//  初始化入口
+async function init(){
+        //  读取NasID和可用用户列表
+    return new Promise(async rec => {
+        await initNasID()
+        await initCanUserList()
+        rec()
+    })
+}
+//  初始化NasID
+async function initNasID(){
+    return new Promise(rec => {
+        ipcRenderer.on('NasID', function(event, arg) {
+            console.log(arg); // prints "pong"
+            window.NasID = arg;
+            rec()
+        });
+    })
+}
+//  初始化canUserList
+async function initCanUserList(){
+    return new Promise(rec => {
+        ipcRenderer.on('canUserList',(event, arg) => {
+            console.log(arg)
+            window.canUserList = arg;
+            rec()
+        })
+    })
+}
 
-    const $CanUserList = [
-        'expressgy'
-    ]
+const START = async () => {
+    //  执行初始化
+    await init();
+    //  可用用户列表
+    const $CanUserList = window.canUserList;
+    //  RTC连接列表
     const $RTCList = {}
     /**
      * 获取信令服务器派发的默认iceConfig
      * */
     let defaultIceConfig;
-    console.log('I AM Nas')
-    //  获取自身的识别码
-    function randomString(len) {
-        len = len || 8;
-        let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-        let maxPos = $chars.length;
-        let pwd = '';
-        for (let i = 0; i < len; i++) {
-            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-        }
-        return pwd;
-    }
-    // const nasName = 'NAS' + randomString(32)
-    const nasName = 'NAS52sswyxh6em4KByKAp4TrJBEfyb73Jts'
+    const nasName = window.NasID
     document.querySelector('#NAME').innerText = nasName
-    console.log('NAS : ', nasName)
-    const ws = new WebSocket('ws://localhost:10001',nasName);
-
+    createWS($CanUserList, $RTCList, defaultIceConfig, nasName)
+}
+function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
+    console.log("ws connect")
+    const ws = new WebSocket('ws://localhost:10001','NAS'+nasName);
     //  心跳间隔时间
     const Timeout = 5000
     //  心跳包起始
@@ -81,6 +96,10 @@ window.onload = () => {
             console.log('close')
             //  将连接状态设置为错误
             state = false
+
+            setTimeout(() => {
+                createWS($CanUserList, $RTCList, defaultIceConfig, nasName)
+            },5000)
         }
         //  接受来自服务器的消息
         ws.onmessage = data => {
@@ -188,8 +207,6 @@ window.onload = () => {
     ws.onerror = e => {
         console.log('error',e)
     }
-
-
     //  收到建立RTC请求后，执行开始创建RTC
     async function createRTC(rtcName, offer){
         //  初始化ICE配置
@@ -224,12 +241,18 @@ window.onload = () => {
             }
         }))
         console.log('END')
+        window.send = $RTCList[rtcName].RTC.send
+        $RTCList[rtcName].RTC.onMessage(data => {
+            console.log(data)
+        })
     }
 
-    //  RTC
+//  RTC
     class N_RTC{
         #defaultIceConfig
         #RTC
+        #onMessage
+        #RTCD_HEART
         constructor(iceConfig) {
             this.#defaultIceConfig = iceConfig
         }
@@ -253,6 +276,9 @@ window.onload = () => {
             const rtcOption = await this.#makeHash()
             this.#RTC = new RTCPeerConnection(rtcOption)
             this.RTCD = this.#RTC.createDataChannel('GY')
+            this.#RTC.ondatachannel = event => {
+                this.dataChannelState(event)
+            }
             this.#RTC.onicecandidate = callback
             // setInterval(() => {
             //     console.log('iceConnectionState',this.#RTC.iceConnectionState)
@@ -270,6 +296,42 @@ window.onload = () => {
         setICE(ice){
             this.#RTC.addIceCandidate(ice)
         }
+        dataChannelState(event){
+            const RTCChannel = event.channel;
+            RTCChannel.onmessage = msg=>{
+                try{
+                    const message = JSON.parse(msg.data)
+                    if(message.type != 'heart'){
+                        this.#onMessage(message)
+                    }
+                }catch (e) {
+                    console.log('非JSON数据',msg.data)
+                    fs.writeFileSync('test.txt',msg.data)
+                }
+            }
+            RTCChannel.onopen = ()=>{
+                console.log('DataChannel is Open')
+                this.#RTCD_HEART = setInterval(() => {
+                    this.RTCD.send(JSON.stringify({
+                        type:'heart'
+                    }))
+                },5000)}
+            RTCChannel.onclose = ()=>{
+                console.log('DataChannel is Close')
+                clearInterval(this.#RTCD_HEART)
+            }
+            RTCChannel.onerror = (e)=>{console.log('DataChannel is error',e)}
+        }
+        send(data){
+            this.RTCD.send(data)
+        }
+        onMessage(callback){
+            this.#onMessage = (data) => {
+                callback(data)
+            }
+        }
     }
+}
+    START()
 </script>
 </html>

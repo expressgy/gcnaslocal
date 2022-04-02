@@ -19,5 +19,8 @@
   "homepage": "https://github.com/expressgy/gcnaslocal#readme",
   "devDependencies": {
     "electron": "^18.0.1"
+  },
+  "dependencies": {
+    "request": "^2.88.2"
   }
 }
