@@ -19,6 +19,20 @@
 <script>
     const ipcRenderer = require('electron').ipcRenderer;
     const fs = require('fs')
+    const db = require('../../DB/api')
+    const initDB = require('../../DB/initDB');
+    const crypto = require('crypto');
+
+    const FILE_SAVE_PATH = '../../'
+
+    async function initdbFun(){
+        const initdb = await new initDB()
+        initdb.initTable()
+        initdb.createGlobalFileTable()
+        initdb.end()
+    }
+
+    initdbFun()
 
 window.onload = () => {
     console.log('I AM NAS!')
@@ -173,6 +187,11 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
                                 message:'已授权此用户'
                             }
                         }))
+                        db.initUserTable(message.data.username).then(data => {
+                            console.log('初始化用户表成功',message.data.username,data)
+                        }).catch(e => {
+                            console.log('初始化用户表失败',message.data.username,e)
+                        })
                     }else{
                         //  不存在拒绝连接
                         ws.send(JSON.stringify({
@@ -243,14 +262,66 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
             }
         }))
         console.log('END')
-        window.send = $RTCList[rtcName].RTC.send
+        // window.send = $RTCList[rtcName].RTC.send
         $RTCList[rtcName].RTC.onMessage(data => {
-            if(data.type == 'file'){
-                saveFile(data.data)
+            /**
+             *
+             * 接口
+             *
+             * */
+            console.log(data)
+            switch (data.type){
+                case 'file':
+                    saveFile(data.data, rtcName);
+                    break
+                case 'checkFile':
+                    checkFile(data.data, rtcName);
+                    break;
+                case 'getFileList':
+                    getFileList(data, rtcName)
+                    break;
+                case 'createFolder':6574
+                    createFolder(data, rtcName);
+                    break;
+                case 'editFilename':
+                    editFilename(data, rtcName);
+                    break;
+                case 'deleteFile':
+                    deleteFile(data, rtcName);
+
             }
         })
     }
-    function saveFile(data){
+    async function checkFile(data,rtcName){
+        //  检测是否因存在文件
+        try{
+            const sqlData = await db.checkExistFile(data.md5)
+            if(sqlData.length == 0){
+                $RTCList[rtcName].RTC.send(JSON.stringify({
+                    type:'checkFile',
+                    md5:data.data.md5,
+                    state:1,
+                    message:'需要上传'
+                }))
+            }else{
+                $RTCList[rtcName].RTC.send(JSON.stringify({
+                    type:'checkFile',
+                    md5:data.md5,
+                    state:0,
+                    message:'无需上传'
+                }))
+                db.insertFile($RTCList[rtcName].requestUser, data.md5, data.fileName, data.fileType, data.fileSize, data.ascription)
+            }
+        }catch (e){
+            $RTCList[rtcName].RTC.send(JSON.stringify({
+                type:'checkFile',
+                md5:data.md5,
+                state:1
+            }))
+        }
+    }
+    function saveFile(data,rtcName){
+        //  存储文件
         if(data.type == 'start') {
             //  收到开始指令创建空文件
             fs.writeFileSync(data.md5, '')
@@ -260,6 +331,8 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
                 fileType:data.fileType,
                 chunkSize:data.chunkSize,
                 chunkTotal:data.chunkTotal,
+                ascription:ascription,
+                createuser:$RTCList[rtcName].requestUser,
                 md5:data.md5,
             }
         }else if(data.type == 'ing'){
@@ -269,8 +342,39 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
             delete window.$fileList[data.md5]
         }else if(data.type == 'end'){
             //  检验文件
-            console.log('上传完成')
+            console.log('检验文件')
+            checkMD5(data.md5,checkmd5 => {
+                if(data.md5 == checkmd5){
+                    console.log('SUCCESS')
+                    $RTCList[rtcName].RTC.send(JSON.stringify({
+                        type:'fileEND',
+                        md5:data.md5,
+                        state:1
+                    }))
+                    db.createFile(data.data.md5, data.data.fileName, data.data.fileType, data.data.fileSize, $RTCList[rtcName].requestUser)
+                    db.insertFile($RTCList[rtcName].requestUser, data.data.md5, data.data.fileName, data.data.fileType, data.data.fileSize, data.data.ascription)
+                }else{
+                    console.log('Fail')
+                    $RTCList[rtcName].RTC.send(JSON.stringify({
+                        type:'fileEND',
+                        md5:data.md5,
+                        state:0
+                    }))
+                }
+            })
         }
+    }
+    function checkMD5(filePath, callback){
+        //  检测文件完整性
+        const stream =  fs.createReadStream(filePath)
+        const fsHash = crypto.createHash('md5')
+        stream.on('data',d => {
+            fsHash.update(d)
+        })
+        stream.on('end', () => {
+            const md5 = fsHash.digest('hex');
+            callback(md5)
+        })
     }
     function saveFile_old(data){
         if(data.type == 'start'){
@@ -315,7 +419,38 @@ function createWS($CanUserList, $RTCList, defaultIceConfig, nasName){
             }
         }
     }
-
+    async function getFileList(data,rtcName){
+        const fileList = await db.getFileList($RTCList[rtcName].requestUser, data.next)
+        const ms = JSON.stringify({
+            type:'getFileList',
+            data:fileList
+        })
+        $RTCList[rtcName].RTC.send(ms)
+    }
+    async function createFolder(data,rtcName){
+        const a = await db.createFolder($RTCList[rtcName].requestUser, data.now, data.filename)
+        const ms = JSON.stringify({
+            type:'createFolder',
+            data:a
+        })
+        $RTCList[rtcName].RTC.send(ms)
+    }
+    async function editFilename(data,rtcName){
+        const a = await db.editFilename($RTCList[rtcName].requestUser, data.id, data.filename)
+        const ms = JSON.stringify({
+            type:'editFilename',
+            data:a
+        })
+        $RTCList[rtcName].RTC.send(ms)
+    }
+    async function deleteFile(data,rtcName){
+        const a = await db.deleteFile($RTCList[rtcName].requestUser, data.id)
+        const ms = JSON.stringify({
+            type:'deleteFile',
+            data:a
+        })
+        $RTCList[rtcName].RTC.send(ms)
+    }
 //  RTC
     class N_RTC{
         #defaultIceConfig

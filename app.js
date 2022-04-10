@@ -4,6 +4,7 @@ const request = require('request');
 const ipcMain = require('electron').ipcMain;
 const ipcRenderer = require('electron').ipcRenderer;
 
+
 app.on("ready",async function(){
     console.log("Hello Electron");
     const win = new BrowserWindow({
